@@ -1,0 +1,204 @@
+\documentclass[a4paper]{article}
+
+\usepackage{indentfirst}
+\usepackage{tikz}
+\usepackage{float}
+\usepackage[stable, hang, flushmargin, bottom]{footmisc}
+\usepackage{enumitem}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage[utf8]{inputenc}
+\usepackage[margin=1.0in]{geometry}
+
+\title{One-Dimensional Chain Rule: Demonstration}
+\author{Aurelien {\sc Lourot}}
+\date{2014-12-30}
+
+\begin{document}
+    \sloppy
+
+    \maketitle
+
+    This article demonstrates the {\it chain rule}, a formula for computing the
+    derivative of the composition of two functions, first used by Leibniz 
+    (around 1700). It states that
+
+    \bigskip
+    given two real functions $f$ and $g$ ($\mathbb{R} \rightarrow \mathbb{R}$)
+    and $x_0 \in \mathbb{R}$, 
+
+    \bigskip
+    if $g$ is differentiable at $x_0$ and $f$ is differentiable at $g(x_0)$, 
+
+    \bigskip
+    then
+    $$
+        (f \circ g)'(x_0) = (f' \circ g)(x_0) \cdot g'(x_0)
+    $$
+
+    \section{Alternate notations}
+
+    The {\it chain rule} is often written in the following more accessible way:
+    \begin{equation}
+        \label{simplenotation}
+        {d \over dx} (f(g(x))) = f'(g(x)) \cdot g'(x)
+    \end{equation}
+    where the free variable $x_0$ has been replaced by $x$.
+
+    \bigskip
+    The word {\it chain} suddenly springs into focus when using {\it Leibniz's 
+    notation}: if one defines $u = g(x)$ and $y = f(u)$, 
+    \begin{itemize}
+      {
+        \item $f'$ represents the variation of $y$ due to the variation of $u$,
+              i.e. $dy \over du$;
+      }
+      {
+        \item $g'$ represents the variation of $u$ due to the variation of $x$,
+              i.e. $du \over dx$.
+      }
+    \end{itemize}
+
+    \bigskip
+    Substituting these terms in \eqref{simplenotation} results in
+    $$
+        {dy \over dx} = {dy \over du} \cdot {du \over dx}
+    $$
+
+    \section{Demonstration}
+
+    The definition of $g$ being differentiable at $x_0$ is
+    $$
+        \lim_{a \to 0}{{g(x_0+a) - g(x_0)} \over a}
+    $$
+    exists. Let's name it $b_0$.
+    \begin{equation}
+        \label{gdifferentiable}
+        \Leftrightarrow \exists h : \mathbb{R} \rightarrow \mathbb{R},
+        \forall a \in \mathbb{R}^*, {{g(x_0+a) - g(x_0)} \over a} = b_0 + h(a)
+    \end{equation}
+    with
+    $$
+        \lim_{a \to 0}{h(a)} = 0
+        \,\,\,\,^(\footnote
+        {
+          Note that there might also be one or several non null values of $a$,
+          even ``far'' from 0, for which $h(a)$ is exactly null.
+        }
+    $$
+
+    \bigskip
+    \begin{tabular}{rcl}
+        \eqref{gdifferentiable} & $\Leftrightarrow$ & 
+        $g(x_0+a) = g(x_0) + a \cdot b_0 + a \cdot h(a)$ \\
+        & $\Rightarrow$ & 
+        $f(g(x_0+a)) = f(g(x_0) + a \cdot b_0 + a \cdot h(a))$
+    \end{tabular}
+
+    \bigskip
+    \bigskip
+    Given $k(a) = a \cdot b_0 + a \cdot h(a)$, we have
+    \begin{equation}
+        \label{fwithk}
+        f(g(x_0+a)) = f(g(x_0) + k(a))
+    \end{equation}
+
+    \bigskip
+    \centerline{---------------------------}
+    \bigskip
+
+    Thanks to $f$ being differentiable at $g(x_0)$, we know that {\bf for $k(a)$
+    non null}
+    $$
+        \lim_{k(a) \to 0}{{f(g(x_0)+k(a)) - f(g(x_0))} \over k(a)}
+    $$
+    exists. Let's name it $c_0$.
+    \begin{equation}
+        \label{fdifferentiable}
+        \Leftrightarrow \exists l : \mathbb{R} \rightarrow \mathbb{R},
+        {{f(g(x_0)+k(a)) - f(g(x_0))} \over k(a)} = c_0 + l(k(a))
+    \end{equation}
+    when $k(a) \not= 0$ with
+    \begin{equation}
+        \label{liml}
+        \lim_{b \to 0}{l(b)} = 0
+        \,\,\,\,^(\footnote
+        {
+          $\eqref{liml} \Rightarrow \lim_{a \to 0}{l(k(a))} = 0$
+        }
+    \end{equation}
+
+    \bigskip
+    When $k(a) \not= 0$,
+    \begin{tabular}{rcl}
+        \eqref{fdifferentiable} & $\Leftrightarrow$ & 
+        $f(g(x_0)+k(a)) = f(g(x_0)) + k(a) \cdot c_0 + k(a) \cdot l(k(a))$
+    \end{tabular}
+
+    \bigskip
+    \centerline{---------------------------}
+    \bigskip
+
+    Let's define $m : \mathbb{R} \rightarrow \mathbb{R}$ as
+    $$
+        m(c) = 
+        \begin{cases}
+          l(c), & c \neq 0; \\
+          0, & c = 0.
+        \end{cases}
+    $$
+
+    \bigskip
+    We now have, for any value of $k(a)$, 
+    $f(g(x_0)+k(a)) = f(g(x_0)) + k(a) \cdot c_0 + k(a) \cdot m(k(a))$
+
+    \bigskip
+    Substituting this result into \eqref{fwithk} gives
+    $$
+        f(g(x_0+a)) = f(g(x_0)) + k(a) \cdot c_0 + k(a) \cdot m(k(a))
+    $$
+    $$
+        \Leftrightarrow f(g(x_0+a)) - f(g(x_0)) = 
+        [a \cdot b_0 + a \cdot h(a)] \cdot c_0 
+        + [a \cdot b_0 + a \cdot h(a)] \cdot m(k(a))
+    $$
+    $$
+        \Leftrightarrow {{f(g(x_0+a)) - f(g(x_0))} \over a} = 
+        b_0 \cdot c_0 + h(a) \cdot c_0 
+        + [b_0 + h(a)] \cdot m(k(a))
+    $$
+    $$
+        \Rightarrow \lim_{a \to 0}{{f(g(x_0+a)) - f(g(x_0))} \over a} = 
+        b_0 \cdot c_0
+    $$
+
+    \bigskip
+    Substituting $b_0$ and $c_0$ by their respective definitions gives
+    \begin{equation}
+        \label{threelim}
+        \lim_{a \to 0}{{f(g(x_0+a)) - f(g(x_0))} \over a} = 
+        \left(\lim_{a \to 0}{{g(x_0+a) - g(x_0)} \over a}\right) \cdot 
+        \left(\lim_{k(a) \to 0}{{f(g(x_0)+k(a)) - f(g(x_0))} \over k(a)}\right)
+    \end{equation}
+
+    \bigskip
+    Note that all three limit arguments ($a$, $a$ and $k(a)$) are independant
+    free variables, so that \eqref{threelim} can be re-written as
+    $$
+        \lim_{a \to 0}{{f(g(x_0+a)) - f(g(x_0))} \over a} = 
+        \left(\lim_{b \to 0}{{g(x_0+b) - g(x_0)} \over b}\right) \cdot 
+        \left(\lim_{c \to 0}{{f(g(x_0)+c) - f(g(x_0))} \over c}\right)
+    $$
+
+    $$
+        \Leftrightarrow
+        \boxed
+        {
+          (f \circ g)'(x_0) = g'(x_0) \cdot f'(g(x_0))
+        }
+    $$
+    \begin{flushright}
+    $\blacksquare$
+    \end{flushright}
+
+\end{document}
